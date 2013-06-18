@@ -44,6 +44,12 @@ $args = array(
 * WooCommerce = woocommerce
 * Jigoshop = jigoshop
 
+## Contributing
+
+Please submit all pull requests against *-dev branche.
+
+Thanks!
+
 = Changelog =
 
 1.0.0 - 18th June 2013
