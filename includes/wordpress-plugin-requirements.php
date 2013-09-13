@@ -6,8 +6,9 @@
  * stores variables, and handles error messages.
  *
  * @class WordPress Plugin Requirement
- * @version 1.0.0
- * @author Sebs Studio
+ * @version 1.1.1
+ * @author Seb's Studio
+ * @author url http://www.sebs-studio.com
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -21,6 +22,12 @@ include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 $plugin = plugin_basename(__FILE__);
 
 if(!class_exists('WordPress_Plugin_Requirement')){
+
+	/* Localisation */
+	$locale = apply_filters('plugin_locale', get_locale(), 'wordpress_plugin_requirement');
+	load_textdomain('wordpress_plugin_requirement', WP_PLUGIN_DIR."/".plugin_basename(dirname(__FILE__)).'/languages/wordpress_plugin_requirement-'.$locale.'.mo');
+	load_plugin_textdomain('wordpress_plugin_requirement', false, dirname(plugin_basename(__FILE__)).'/languages/');
+
 	class WordPress_Plugin_Requirement {
 
 		/**
@@ -56,19 +63,29 @@ if(!class_exists('WordPress_Plugin_Requirement')){
 					}
 				}
 
-				wp_die("'".$args['plugin_name']."' requires WordPress ".$args['wpversion']." or higher, and has been deactivated! Please upgrade WordPress and try again.<br /><br />Back to <a href='".admin_url()."'>WordPress Admin</a>.");
+				wp_die( sprintf("'%s' ".__('requires WordPress %s or higher, and has been deactivated! Please upgrade WordPress and try again.<br /><br />Back to <a href="%s">WordPress Admin</a>.', 'wordpress_plugin_requirement'), $args['plugin_name'], $args['wpversion'], admin_url() );
 
 			} // end if wordpress version has met first plugin requirement.
 
-			else {
-
-				// If woocommerce is required, we check to see if it is active.
-				if( in_array( 'woocommerce', $args ) && function_exists( 'is_woocommerce_activated' ) ) {
-					if( $this->is_woocommerce_activated() ) {
-						wp_die("'".$args['plugin_name']."' ".__('requires <a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce</a> to be activated in order to work. Please install and activate <a href="'.admin_url('plugin-install.php?tab=search&type=term&s=WooCommerce').'">WooCommerce</a> first.', 'wc_product_page_layouts'));
-					}
+			// If easy digital downloads is required, we check to see if it is active.
+			if( in_array( 'edd', $args ) && function_exists( 'is_edd_activated' ) ) {
+				if( $this->is_edd_activated() ) {
+					wp_die( sprintf("'%s' ".__('requires <a href="%s" target="_blank">Easy Digital Downloads</a> to be activated in order to work. Please install and activate <a href="%s">Easy Digital Downloads</a> first.', 'wordpress_plugin_requirement'), $args['plugin_name'], 'https://easydigitaldownloads.com' admin_url('plugin-install.php?tab=search&type=term&s=easy+digital+downloads') );
 				}
+			}
 
+			// If jigoshop is required, we check to see if it is active.
+			if( in_array( 'jigoshop', $args ) && function_exists( 'is_jigoshop_activated' ) ) {
+				if( $this->is_jigoshop_activated() ) {
+					wp_die( sprintf("'%s' ".__('requires <a href="%s" target="_blank">Jigoshop</a> to be activated in order to work. Please install and activate <a href="%s">WooCommerce</a> first.', 'wordpress_plugin_requirement'), $args['plugin_name'], 'http://www.jigoshop.com/' admin_url('plugin-install.php?tab=search&type=term&s=Jigoshop') );
+				}
+			}
+
+			// If woocommerce is required, we check to see if it is active.
+			if( in_array( 'woocommerce', $args ) && function_exists( 'is_woocommerce_activated' ) ) {
+				if( $this->is_woocommerce_activated() ) {
+					wp_die( sprintf("'%s' ".__('requires <a href="%s" target="_blank">WooCommerce</a> to be activated in order to work. Please install and activate <a href="%s">WooCommerce</a> first.', 'wordpress_plugin_requirement'), $args['plugin_name'], 'http://www.woothemes.com/woocommerce/' admin_url('plugin-install.php?tab=search&type=term&s=WooCommerce') );
+				}
 			}
 
 		} // end if wordpress_plugin_requires
@@ -84,13 +101,13 @@ if(!class_exists('WordPress_Plugin_Requirement')){
 		 * @return void
 		 */
 		public function is_woocommerce_activated(){
-			if(class_exists('woocommerce')){
-				$is_woocommerce_active = true;
+			$active_plugins = (array) get_option('active_plugins', array());
+
+			if(is_multisite()){
+				$active_plugins = array_merge($active_plugins, get_site_option('active_sitewide_plugins', array()));
 			}
-			else{
-				$is_woocommerce_active = false;
-			}
-			return $is_woocommerce_active;
+
+			return in_array('woocommerce/woocommerce.php', $active_plugins) || array_key_exists('woocommerce/woocommerce.php', $active_plugins);
 		}
 
 		/**
@@ -100,13 +117,29 @@ if(!class_exists('WordPress_Plugin_Requirement')){
 		 * @return void
 		 */
 		public function is_jigoshop_activated(){
-			if(class_exists('jigoshop')){
-				$is_jigoshop_active = true;
+			$active_plugins = (array) get_option('active_plugins', array());
+
+			if(is_multisite()){
+				$active_plugins = array_merge($active_plugins, get_site_option('active_sitewide_plugins', array()));
 			}
-			else{
-				$is_jigoshop_active = false;
+
+			return in_array('jigoshop/jigoshop.php', $active_plugins) || array_key_exists('jigoshop/jigoshop.php', $active_plugins);
+		}
+
+		/**
+		 * Query whether Easy Digital Downloads is activated.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		public function is_edd_activated(){
+			$active_plugins = (array) get_option('active_plugins', array());
+
+			if(is_multisite()){
+				$active_plugins = array_merge($active_plugins, get_site_option('active_sitewide_plugins', array()));
 			}
-			return $is_jigoshop_active;
+
+			return in_array('easy-digital-downloads/easy-digital-downloads.php', $active_plugins) || array_key_exists('easy-digital-downloads/easy-digital-downloads.php', $active_plugins);
 		}
 
 	} // end of WordPress_Plugin_Requirement class.
