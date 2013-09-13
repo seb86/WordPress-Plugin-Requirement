@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WordPress Plugin Requirement\n"
+"POT-Creation-Date: 2013-09-13 16:44+0100\n"
+"PO-Revision-Date: 2013-09-13 16:45+0100\n"
+"Last-Translator: \n"
+"Language-Team: Seb's Studio <sebastien@sebs-studio.com>\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: D:\\Dropbox\\Sebs Studio\\WordPress Plugin "
+"Requirements\\includes\n"
+
+#: D:\Dropbox\Sebs Studio\WordPress Plugin
+#: Requirements\includes/wordpress-plugin-requirements.php:66
+#, php-format
+msgid ""
+"requires WordPress %s or higher, and has been deactivated! Please upgrade "
+"WordPress and try again.<br /><br />Back to <a href=\"%s\">WordPress Admin</"
+"a>."
+msgstr ""
+
+#: D:\Dropbox\Sebs Studio\WordPress Plugin
+#: Requirements\includes/wordpress-plugin-requirements.php:73
+#, php-format
+msgid ""
+"requires <a href=\"%s\" target=\"_blank\">Easy Digital Downloads</a> to be "
+"activated in order to work. Please install and activate <a href=\"%s\">Easy "
+"Digital Downloads</a> first."
+msgstr ""
+
+#: D:\Dropbox\Sebs Studio\WordPress Plugin
+#: Requirements\includes/wordpress-plugin-requirements.php:80
+#, php-format
+msgid ""
+"requires <a href=\"%s\" target=\"_blank\">Jigoshop</a> to be activated in "
+"order to work. Please install and activate <a href=\"%s\">WooCommerce</a> "
+"first."
+msgstr ""
+
+#: D:\Dropbox\Sebs Studio\WordPress Plugin
+#: Requirements\includes/wordpress-plugin-requirements.php:87
+#, php-format
+msgid ""
+"requires <a href=\"%s\" target=\"_blank\">WooCommerce</a> to be activated in "
+"order to work. Please install and activate <a href=\"%s\">WooCommerce</a> "
+"first."
+msgstr ""
