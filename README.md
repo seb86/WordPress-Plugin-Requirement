@@ -53,9 +53,7 @@ Simply add the plugin you require to be active before your plugin can be active.
 
 ## Contributing
 
-Please submit all pull requests against *-dev branch.
-
-Thanks!
+Please read the 'CONTRIBUTING.md' file for details.
 
 ## Changelog
 
